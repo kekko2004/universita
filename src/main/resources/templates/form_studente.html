@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Studente</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    body {
+        background-color: #c9d6ff;
+        background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .container {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        width:  400px;
+        height: auto;
+        max-width: 100%;
+        min-height: 300px;
+        text-align: center;
+    }
+    
+    .container h1 {
+        
+        line-height: 20px;
+        letter-spacing: 1.5px;
+        margin: 15px;
+        margin-top: -30px;
+    }
+    
+    
+    .container a {
+        color: #333;
+        font-size: 13px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+    
+    .container button {
+        background-color: rgb(0, 128, 64);
+        color: #fff;
+        font-size: 12px;
+        padding: 10px 45px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    
+    .container button.hidden {
+        background-color: transparent;
+        border-color: #fff;
+    }
+    
+    .container form {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 20px 40px;
+        height: 100%;
+        text-align: center;
+    }
+    
+    .container input , .container select{
+        background-color: #eee;
+        border: none;
+        margin: 8px 0;
+        padding: 10px 15px;
+        font-size: 13px;
+        border-radius: 8px;
+        width: 100%;
+        outline: none;
+    }
+    .container select option{
+		border: 0.5px rgb(216, 216, 216);
+        outline: none;
+        margin: 3px 0;
+        
+	}
+	.container select option:checked{
+		background-color: rgb(0, 128, 64);
+        color: white;
+	}
+</style>
+<body>
+	
+	<div class="container">
+		
+<h2 th:if="${studente.matricola == null}">Nuovo studente</h2>
+<h2 th:if="${studente.matricola != null}">Modifica studente</h2>
+<form th:object="${studente}" th:action="${studente.matricola == null ? '/studenti/nuovo' : '/studenti/modifica'}" method="post">
+    <input type="hidden" th:field="*{matricola}">
+    
+    <label for="nome">Nome:</label>
+    <input id="nome" type="text" th:field="*{nome}" required><br>
+    
+    <label for="cognome">Cognome:</label>
+    <input id="cognome" type="text" th:field="*{cognome}" required><br>
+    
+    <label for="nascita">Data di nascita:</label>
+    <input id="nascita" type="date" th:field="*{nascita}" required><br>
+    
+    <label>Scegli tra i corsi disponibili:</label>
+    <select th:field="*{corsi}" id="corsi" name="corsi" multiple="" required>
+        <!-- Ciclo per visualizzare i corsi disponibili -->
+        <option th:each="corso : ${listaCorsi}" th:value="${corso.id_corso}" th:text="${corso.nome}"></option>
+    </select><br>
+    
+    <button type="submit">Salva</button>
+</form></div>
+<br>
+<a th:href="@{/corsi}">Torna alla lista degi corsi</a>
+</body>
+</html>

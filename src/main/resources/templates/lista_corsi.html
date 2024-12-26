@@ -1,0 +1,209 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Libri</title>
+</head>
+<style>
+.menu{
+    display: flex;
+    
+    padding: 10px;
+    background: #0E3386;
+}
+.menu form{
+    display: inline-block;
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+   
+    .container {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        width:  400px;
+        height: 400px;
+        max-width: 100%;
+        min-height: 300px;
+        text-align: center;
+    }
+    
+    .container h1 {
+        
+        line-height: 20px;
+        letter-spacing: 1.5px;
+        margin: 15px;
+        margin-top: -30px;
+    }
+    
+    
+    .container a {
+        color: #333;
+        font-size: 13px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+    
+   
+    .buttons{
+        background-color: #a82d79;
+        color: #fff;
+        font-size: 10px;
+        padding: 10px 15px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 20;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    .buttons.hidden {
+        background-color: transparent;
+        border-color: #fff;
+    }
+    
+    .container form {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        height: 100%;
+        text-align: center;
+    }
+    input{
+        background-color: #eee;
+        border: none;
+        margin: 8px 0;
+        padding: 10px 15px;
+        font-size: 10pt;
+        border-radius: 8px;
+        width: 225px;
+        outline: none;
+    }
+    .menu form input{
+		padding: 10px;
+	}
+	.menu form{
+		margin: 10px;
+	}
+	.sotto-menu{
+	display: grid;
+	
+	
+}
+.corpo{
+		margin-left:10%;
+	}
+	.sotto-menu a{
+		color: #fff;
+	text-decoration: none;
+	font-size: 10pt;
+	padding: 3px;
+	border-radius: 5px;
+	}
+	.sotto-menu a:hover{
+		font-size: 11pt;
+		transition: 0.3s;
+		
+		box-shadow: 2.5px 2.5px 2.5px #f9f9f9;
+	}
+</style>
+<style>
+	 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+	table {
+ 
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+/* Stile per le intestazioni della tabella */
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* Stile per le celle della tabella */
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Alterna lo sfondo delle righe */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect per le righe */
+tr:hover {
+  background-color: #e5e5e5;
+}
+
+td a{
+	color: #a82d79;
+}
+
+</style>
+<body>
+	<div class="menu">
+		<form  th:action="@{/corsi}" method="get">
+		     <input type="text" name="ricercaCorso" th:value="${ricercaCorso}" placeholder="Cerca corso tramite nome">
+		    <button class="buttons" type="submit">Cerca</button>
+		</form>
+		<form th:action="@{/corsi}" method="get">
+		     <input type="text" name="ricercaProfessore" th:value="${ricercaProfessore}" placeholder="Cerca corso tramite professore">
+		    <button  class="buttons" type="submit">Cerca</button>
+		</form>
+    </div>
+		<div class="sotto-menu">
+			<a th:href="@{/studenti}">Vai alla lista degli studenti </a>
+			<a th:href="@{/professori}">Vai alla lista dei professori </a>
+			<a th:href="@{/corsi/nuovo}">Aggiungi nuovo Corso</a>
+		</div>
+
+<h2>Lista dei Corsi</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Descrizione</th>
+        <th>Professore</th>
+        <th>Data di inizio</th>
+        <th>Data di fine</th>
+        <th colspan="2">Azioni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="corsi : ${corsi}">
+        <td th:text="${corsi.id_corso}"></td>
+        <td th:text="${corsi.nome}"></td>
+        <td th:text="${corsi.descrizione}"></td>
+        <td th:text="${corsi.professore.nome}+' '+${corsi.professore.cognome}"></td>
+        <td th:text="${corsi.inizio}"></td>
+        <td th:text="${corsi.fine}"></td>
+        <td><a th:href="@{/corsi/modifica/{id}(id=${corsi.id_corso})}">Modifica</a></td>
+        <td><a th:href="@{/corsi/elimina/{id}(id=${corsi.id_corso})}" onclick="return confirm('Sei sicuro di voler eliminare questo corso?')">Elimina</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+</body>
+
+</html>

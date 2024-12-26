@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Autori</title>
+</head>
+<style>
+	* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif;
+    }
+	 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+	table {
+  
+  border-collapse: collapse;
+  margin-left: 10%;
+  margin-right: 10%;
+  
+}
+body{
+		justify-content: center;
+	}
+/* Stile per le intestazioni della tabella */
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* Stile per le celle della tabella */
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Alterna lo sfondo delle righe */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect per le righe */
+tr:hover {
+  background-color: #e5e5e5;
+}
+.buttons{
+	border: 3px solid  #3498db;
+	color:#3498db;
+	padding: 1%;
+	margin: 12px;
+	border-radius: 25px;
+	font-size: 12pt;
+	text-decoration: none;
+	
+}
+.buttons:hover{
+	color:white;
+	background: #3498db;
+	transition: 0.3s;
+}
+td a{
+	color: #a82d79;
+}
+</style>
+<body>
+<h2>Lista degli Professori</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Anno di Nascita</th>
+        <th>Azioni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${professori}">
+        <td th:text="${p.id_professore}"></td>
+        <td th:text="${p.nome}"></td>
+        <td th:text="${p.cognome}"></td>
+        <td th:text="${p.nascita}"></td>
+        
+        <td>
+			<a th:href="@{/professori/elimina/{id}(id=${p.id_professore})}" onclick="return confirm('Sei sicuro di voler eliminare questo autore?')">Elimina</a>
+        	<a th:href="@{/professori/modifica/{id}(id=${p.id_professore})}">Modifica</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a th:href="@{/professori/nuovo}">Aggiungi nuovo Prof!</a>
+<br>
+<a th:href="@{/corsi}">Torna alla lista dei corsi</a>
+</body>
+</html>

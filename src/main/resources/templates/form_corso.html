@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Libro</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    body {
+        background-color: #c9d6ff;
+        background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .container {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        width:  400px;
+        height: auto;
+        max-width: 100%;
+        min-height: 300px;
+        text-align: center;
+    }
+    
+    .container h1 {
+        
+        line-height: 20px;
+        letter-spacing: 1.5px;
+        margin: 15px;
+        margin-top: -30px;
+    }
+    
+    
+    .container a {
+        color: #333;
+        font-size: 13px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+    
+    .container button {
+        background-color: #512da8;
+        color: #fff;
+        font-size: 12px;
+        padding: 10px 45px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    
+    .container button.hidden {
+        background-color: transparent;
+        border-color: #fff;
+    }
+    
+    .container form {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 20px 40px;
+        height: 100%;
+        text-align: center;
+    }
+    
+    .container input , .container select option, .container select{
+        background-color: #eee;
+        border: none;
+        margin: 5px 0;
+        padding: 10px 15px;
+        font-size: 13px;
+        border-radius: 8px;
+        width: 100%;
+        outline: none;
+    }
+    
+</style>
+<body>
+	<div class="container">
+<h2 th:if="${corso.id_corso == null}">Nuovo Corso</h2>
+<h2 th:if="${corso.id_corso != null}">Modifica Corso</h2>
+<form th:object="${corso}" th:action="${corso.id_corso == null ? '/corsi/nuovo' : '/corsi/modifica'}" method="post">
+    <input type="hidden" th:field="*{id_corso}">
+    <label for="nome">Nome corso:</label>
+    <input id="nome" type="text" th:field="*{nome}" required><br>
+    <label for="descrizione">Descrizione corso:</label>
+    <input id="descrizione" type="text" th:field="*{descrizione}" required><br>
+    <label for="data">Data di inizio:</label>
+    <input id="inizio" type="date" th:field="*{inizio}" required><br>
+    <label for="data">Data di fine:</label>
+    <input id="fine" type="date" th:field="*{fine}" required><br>
+    <label for="professore">Professore:</label>
+    <select th:field="*{professore}" required id="professore">
+        <option th:each="professore : ${professori}" th:value="${professore.id_professore}" th:text="${professore.nome} + ' ' + ${professore.cognome} "></option>
+    </select><br>
+    
+    <button type="submit">Salva</button>
+</form>
+<br>
+</div>
+<a th:href="@{/corsi}">Torna alla lista dei corsi</a>
+</body>
+</html>
